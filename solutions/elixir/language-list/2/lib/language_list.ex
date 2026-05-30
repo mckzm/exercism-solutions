@@ -1,0 +1,37 @@
+defmodule LanguageList do
+  def new() do
+    []
+  end
+
+  def add(list, language) do
+    [language | list]
+  end
+
+  def remove(list) do
+    [_head | tail] = list
+    tail
+  end
+
+  def first(list) do
+    [head | _tail] = list
+    head
+  end
+
+  # In lieu of Kernel.count/1
+  def count(list) do
+    count_acc(list, 0)
+  end
+
+  def functional_list?(list) do
+    "Elixir" in list
+  end
+
+  defp count_acc(list, acc) do
+    cond do
+      list === [] -> acc
+      true ->
+        [_head | tail] = list
+        count_acc(tail, acc + 1)
+    end
+  end
+end

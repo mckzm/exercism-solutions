@@ -1,0 +1,73 @@
+module SqueakyClean exposing (clean, clean1, clean2, clean3, clean4)
+
+
+capitalize : String -> String
+capitalize s =
+    case String.uncons s of
+        Just ( c, rest ) ->
+            String.cons (Char.toUpper c) rest
+
+        Nothing ->
+            ""
+
+
+clean1 : String -> String
+clean1 str =
+    String.replace " " "_" str
+
+
+clean2 : String -> String
+clean2 str =
+    let
+        ctrlChars : List String
+        ctrlChars =
+            [ "\n", "\t", "\u{000D}" ]
+
+        cleanedStr : String
+        cleanedStr =
+            str |> clean1
+    in
+    List.foldl (\c -> String.replace c "[CTRL]") cleanedStr ctrlChars
+
+
+clean3 : String -> String
+clean3 str =
+    let
+        cleanedStr : String
+        cleanedStr =
+            str |> clean1 |> clean2
+    in
+    case String.split "-" cleanedStr of
+        s :: ss ->
+            s ++ String.concat (List.map capitalize ss)
+
+        [] ->
+            ""
+
+
+clean4 : String -> String
+clean4 str =
+    let
+        cleanedStr : String
+        cleanedStr =
+            str |> clean1 |> clean2 |> clean3
+    in
+    String.filter (not << Char.isDigit) cleanedStr
+
+
+clean : String -> String
+clean str =
+    let
+        cleanedStr : String
+        cleanedStr =
+            str |> clean1 |> clean2 |> clean3 |> clean4
+
+        greekLowerCaseLetters : List Char
+        greekLowerCaseLetters =
+            List.range (Char.toCode 'α') (Char.toCode 'ω') |> List.map Char.fromCode
+
+        isGreekLowerCase : Char -> Bool
+        isGreekLowerCase c =
+            List.member c greekLowerCaseLetters
+    in
+    String.filter (not << isGreekLowerCase) cleanedStr

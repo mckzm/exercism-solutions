@@ -1,0 +1,26 @@
+unit Grains;
+
+{$mode ObjFPC}{$H+}
+
+interface
+
+function Square(const ASquare : integer) : UInt64;
+function Total : UInt64;
+
+implementation
+
+uses SysUtils;
+
+function Square(const aSquare : integer) : UInt64;
+begin
+  if (aSquare <= 0) or (aSquare > 64) then
+    raise EArgumentOutOfRangeException.Create('square must be between 1 and 64');
+  result := UInt64(1) shl (aSquare - 1)
+end;
+
+function Total : UInt64;
+begin
+  result :=  High(UInt64)
+end;
+
+end.

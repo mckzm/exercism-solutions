@@ -1,0 +1,5 @@
+/node_modules/
+/output/
+/.spago/
+/spago.lock
+/.purs-repl

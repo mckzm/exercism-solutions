@@ -1,0 +1,4 @@
+isLeap?: function [year][
+    ; Simply `leap? year` or:
+    and? [(year % 4) = 0][or?[(year % 100) <> 0][(year % 400) = 0]]
+]
